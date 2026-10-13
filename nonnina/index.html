@@ -1,0 +1,99 @@
+<!doctype html>
+<!--
+  nonnina/index.html on rubbiaa.github.io — Nonnina's page (App Store support URL).
+  Source: web/ in the Nonnina repository. English, switched to Italian for Italian browsers (data-it).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nonnina — Family Recipes</title>
+<meta name="description" content="Keep the recipes you love. Remember who they came from.">
+<meta property="og:title" content="Nonnina — Family Recipes">
+<meta property="og:description" content="Keep the recipes you love. Remember who they came from.">
+<meta property="og:image" content="https://rubbiaa.github.io/nonnina/icon.png">
+<link rel="icon" href="/nonnina/icon.png">
+<link rel="apple-touch-icon" href="/nonnina/icon.png">
+<style>
+  :root {
+    --bg: #F8F3EA; --surface: #FFFDF8; --surface2: #EEE5D5; --text: #2B241D; --muted: #7D7062;
+    --accent: #8E4A2B; --on-accent: #FFFFFF; --accent2: #5F6F3E; --line: #E3D8C5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1E1A16; --surface: #29231E; --surface2: #352E27; --text: #F1E8DC; --muted: #B3A493;
+      --accent: #E0956B; --on-accent: #1E1A16; --accent2: #A9BC84; --line: #43392F;
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 28px 16px 64px; }
+  header { display: flex; align-items: center; gap: 16px; }
+  header img { width: 72px; height: 72px; border-radius: 16px; border: 1px solid var(--line); }
+  .logo { font-family: "Snell Roundhand", "Segoe Script", cursive; font-weight: 700; color: var(--accent); font-size: 46px; line-height: 1; margin: 0; }
+  .sub { color: var(--muted); margin: 4px 0 0; }
+  .tagline { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 24px; line-height: 1.35; margin: 28px 0 8px; }
+  h2 { color: var(--muted); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin: 34px 0 10px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 18px; }
+  .card p { margin: 12px 0; }
+  .card p + p { border-top: 1px solid var(--line); padding-top: 12px; }
+  b { color: var(--accent); font-weight: 650; }
+  .store { display: inline-block; margin-top: 18px; padding: 11px 18px; border-radius: 12px; background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none; }
+  .soon { color: var(--muted); margin-top: 18px; }
+  a { color: var(--accent); }
+  footer { color: var(--muted); font-size: 14px; margin-top: 40px; border-top: 1px solid var(--line); padding-top: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="/nonnina/icon.png" alt="">
+    <div>
+      <p class="logo">Nonnina</p>
+      <p class="sub" data-it="Ricette di famiglia · iPhone e iPad">Family Recipes · iPhone and iPad</p>
+    </div>
+  </header>
+
+  <p class="tagline" data-it="Conserva le ricette che ami. Ricorda da chi vengono.">Keep the recipes you love. Remember who they came from.</p>
+  <p data-it="Ogni famiglia ha ricette che vivono solo nella memoria di qualcuno — il tiramisù della nonna, il risotto della domenica di papà, la torta che la zia Maria faceva per ogni compleanno. Nonnina le conserva, insieme alle persone da cui vengono.">Every family has recipes that live only in someone's memory — Nonna's tiramisù, Dad's Sunday risotto, the cake Aunt Maria made for every birthday. Nonnina keeps them, together with the people they came from.</p>
+  <a class="store" id="store" href="#" hidden data-it="Scarica Nonnina dall'App Store">Get Nonnina on the App Store</a>
+  <p class="soon" id="soon" data-it="Nonnina arriva presto sull'App Store.">Nonnina is coming soon to the App Store.</p>
+
+  <h2 data-it="Facile come chiedere alla nonna">As easy as asking your grandmother</h2>
+  <div class="card">
+    <p data-it="&lt;b&gt;Fotografa&lt;/b&gt; la scheda scritta a mano o la pagina del ricettario: Nonnina la legge per te, sul telefono.">
+      <b>Photograph</b> the handwritten card or the cookbook page: Nonnina reads it for you, on the phone.</p>
+    <p data-it="&lt;b&gt;Raccontala&lt;/b&gt; come a un'amica — «il tiramisù della nonna vuole 500 g di mascarpone, cinque uova…» — e diventa una ricetta in ordine.">
+      <b>Tell it</b> as you would to a friend — “my grandmother's tiramisù uses 500 g mascarpone, five eggs…” — and it becomes a tidy recipe.</p>
+    <p data-it="&lt;b&gt;Da chi viene?&lt;/b&gt; fa parte di ogni ricetta: ogni persona ha la sua pagina, con la foto, due parole e tutte le sue ricette.">
+      <b>From whom?</b> is part of every recipe: each person has a page, with their photo, a few words and all their recipes.</p>
+    <p data-it="&lt;b&gt;La tua versione&lt;/b&gt;, accanto all'originale: meno zucchero, un goccio di Marsala — l'originale non viene mai sovrascritto.">
+      <b>Your version</b>, next to the original: less sugar, a splash of Marsala — the original is never overwritten.</p>
+    <p data-it="&lt;b&gt;Tradizione&lt;/b&gt;: ricette dei grandi ricettari storici — Artusi, Beauvilliers, Dorn, Haller e altri — con le parole originali e una versione per la cucina di oggi.">
+      <b>Tradition</b>: recipes from the great historical cookbooks — Artusi, Beauvilliers, Dorn, Haller and more — with the original words and a version for today's kitchen.</p>
+    <p data-it="&lt;b&gt;Mandala a qualcuno&lt;/b&gt;: un link con la ricetta dentro, via Messaggi, WhatsApp o e-mail. Chi la riceve la aggiunge alle sue.">
+      <b>Send it to someone</b>: a link with the recipe inside it, by Messages, WhatsApp or e-mail. They add it to their own.</p>
+  </div>
+
+  <h2 data-it="Le tue ricette sono tue">Your recipes are yours</h2>
+  <p data-it="Le ricette restano sul tuo iPhone e nel tuo iCloud. Niente account, niente pubblicità, nessun tracciamento. &lt;a href=&quot;/nonnina/privacy.html&quot;&gt;Privacy&lt;/a&gt;">
+    Your recipes stay on your iPhone and in your own iCloud. No account, no ads, no tracking. <a href="/nonnina/privacy.html">Privacy</a></p>
+
+  <h2 data-it="Domande e idee">Questions and ideas</h2>
+  <p data-it="Scrivimi: &lt;a href=&quot;mailto:andrerubbia@gmail.com&quot;&gt;andrerubbia@gmail.com&lt;/a&gt;">Write to me: <a href="mailto:andrerubbia@gmail.com">andrerubbia@gmail.com</a></p>
+
+  <footer>© 2026 André Rubbia · <a href="/nonnina/privacy.html" data-it="Privacy">Privacy</a></footer>
+</main>
+<script>
+  // When Nonnina is on the App Store, put its link here (e.g. "https://apps.apple.com/app/id…").
+  var APP_STORE_URL = "";
+  if (APP_STORE_URL) { var s = document.getElementById("store"); s.href = APP_STORE_URL; s.hidden = false; document.getElementById("soon").hidden = true; }
+  if (/^it\b/i.test(navigator.language || "")) {
+    document.documentElement.lang = "it";
+    document.title = "Nonnina — Ricette di famiglia";
+    document.querySelectorAll("[data-it]").forEach(function (e) { e.innerHTML = e.getAttribute("data-it"); });
+  }
+</script>
+</body>
+</html>

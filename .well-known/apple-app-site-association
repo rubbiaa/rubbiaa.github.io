@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["R2Y5QCNMT9.com.rubbiaa.nonnina"],
+        "components": [
+          { "/": "/nonnina/r/*", "comment": "A recipe shared from Nonnina (the recipe is after the #)" },
+          { "/": "/nonnina/r", "comment": "The same, without the trailing slash" }
+        ]
+      }
+    ]
+  }
+}

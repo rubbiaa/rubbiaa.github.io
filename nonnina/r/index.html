@@ -1,0 +1,177 @@
+<!doctype html>
+<!--
+  nonnina/r/index.html on rubbiaa.github.io — the page a shared Nonnina recipe link opens.
+  (Source: web/ in the Nonnina repository; copied into the rubbiaa.github.io repository.)
+
+  The recipe is in the link itself, after "#" (share.ts: "1" + base64url(raw deflate(JSON))).
+  Browsers never send that part to the server, so GitHub never sees the recipe; this page
+  decodes it right here and shows it, with "Open in Nonnina" (nonnina://r#…) and how to get the app.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>A recipe from Nonnina</title>
+<meta property="og:title" content="A recipe from Nonnina">
+<meta property="og:description" content="Someone shared a family recipe with you.">
+<meta property="og:image" content="https://rubbiaa.github.io/nonnina/icon.png">
+<link rel="icon" href="/nonnina/icon.png">
+<link rel="apple-touch-icon" href="/nonnina/icon.png">
+<style>
+  :root {
+    --bg: #F8F3EA; --surface: #FFFDF8; --surface2: #EEE5D5; --text: #2B241D; --muted: #7D7062;
+    --accent: #8E4A2B; --on-accent: #FFFFFF; --accent2: #5F6F3E; --line: #E3D8C5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1E1A16; --surface: #29231E; --surface2: #352E27; --text: #F1E8DC; --muted: #B3A493;
+      --accent: #E0956B; --on-accent: #1E1A16; --accent2: #A9BC84; --line: #43392F;
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 20px 16px 64px; }
+  .logo { font-family: "Snell Roundhand", "Segoe Script", cursive; font-weight: 700; color: var(--accent); font-size: 38px; margin: 0; }
+  .app { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 14px 0 26px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .app p { margin: 0; flex: 1 1 220px; color: var(--muted); font-size: 15px; }
+  .btn { display: inline-block; padding: 10px 16px; border-radius: 11px; font-weight: 600; font-size: 16px; text-decoration: none; border: 0; cursor: pointer; font-family: inherit; }
+  .primary { background: var(--accent); color: var(--on-accent); }
+  .secondary { background: var(--surface2); color: var(--accent); }
+  .kicker { color: var(--accent2); font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 0; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 34px; line-height: 1.15; margin: 6px 0 4px; overflow-wrap: anywhere; }
+  .meta { color: var(--muted); margin: 0; }
+  .story { border-left: 3px solid var(--accent); padding-left: 14px; margin: 20px 0 0; font-family: Georgia, serif; font-style: italic; font-size: 19px; }
+  h2 { color: var(--muted); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin: 26px 0 8px; }
+  ul, ol { margin: 0; padding-left: 0; list-style: none; }
+  li { padding: 3px 0; overflow-wrap: anywhere; }
+  ul li::before { content: "•"; color: var(--accent); margin-right: 10px; }
+  ol { counter-reset: step; }
+  ol li { counter-increment: step; display: flex; gap: 12px; padding: 6px 0; }
+  ol li::before { content: counter(step); color: var(--accent); font-family: Georgia, serif; font-weight: 700; font-size: 20px; min-width: 22px; line-height: 1.3; }
+  .version { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 12px; margin-top: 18px; }
+  .small { color: var(--muted); font-size: 14px; margin-top: 22px; }
+  .error { text-align: center; color: var(--muted); padding: 60px 0; }
+  a { color: var(--accent); }
+  @media print { .app, .noprint { display: none !important; } body { background: #fff; color: #000; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="logo"><a href="/nonnina/" style="color:inherit;text-decoration:none">Nonnina</a></p>
+  <div class="app" id="app" hidden>
+    <p id="appText"></p>
+    <a class="btn primary" id="open" href="#"></a>
+    <a class="btn secondary" id="get" href="#" hidden></a>
+  </div>
+  <article id="recipe" hidden></article>
+  <p class="error" id="error" hidden></p>
+  <p class="small noprint" id="print" hidden><a href="javascript:window.print()"></a></p>
+</main>
+<script>
+(function () {
+  // When Nonnina is on the App Store, put its link here (e.g. "https://apps.apple.com/app/id…").
+  var APP_STORE_URL = "";
+
+  var it = /^it\b/i.test(navigator.language || "");
+  var T = it ? {
+    sentBy: "{name} ti ha mandato una ricetta", sent: "Una ricetta per te", from: "Da {name}",
+    ingredients: "Ingredienti", steps: "Procedimento", serves: "Dosi: {s}", version: "La versione di {name}",
+    basedOn: "Da una ricetta tradizionale", open: "Apri in Nonnina", get: "Scarica Nonnina",
+    appHave: "Hai Nonnina? Aggiungi la ricetta alle tue.",
+    appGet: "Con Nonnina puoi tenere questa ricetta tra le tue. Dopo averla installata, tocca di nuovo il link.",
+    appSoon: "Nonnina arriva presto sull'App Store.",
+    print: "Stampa", broken: "Questo link sembra incompleto. Chiedi di mandartelo di nuovo.",
+    old: "Questo browser non riesce ad aprire la ricetta. Prova con Safari o Chrome aggiornati.",
+    source: "Fonte", min: "min", h: "h",
+    cat: { starters: "Antipasti", pasta: "Primi", soups: "Zuppe e minestre", meat: "Carne", fish: "Pesce", vegetables: "Verdure e contorni", breads: "Pane e pizza", desserts: "Dolci", holidays: "Feste", other: "Altro" }
+  } : {
+    sentBy: "{name} sent you a recipe", sent: "A recipe for you", from: "From {name}",
+    ingredients: "Ingredients", steps: "Steps", serves: "Serves {s}", version: "{name}'s version",
+    basedOn: "Based on a traditional recipe", open: "Open in Nonnina", get: "Get Nonnina",
+    appHave: "Have Nonnina? Add this recipe to yours.",
+    appGet: "With Nonnina you can keep this recipe among your own. After installing it, tap the link again.",
+    appSoon: "Nonnina is coming soon to the App Store.",
+    print: "Print", broken: "This link seems incomplete. Ask for it to be sent again.",
+    old: "This browser can't open the recipe. Try an up-to-date Safari or Chrome.",
+    source: "Source", min: "min", h: "h",
+    cat: { starters: "Starters", pasta: "Pasta & rice", soups: "Soups", meat: "Meat", fish: "Fish", vegetables: "Vegetables", breads: "Bread & pizza", desserts: "Desserts", holidays: "Holidays", other: "Other" }
+  };
+  document.documentElement.lang = it ? "it" : "en";
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function fill(s, o) { return s.replace(/\{(\w+)\}/g, function (_, k) { return o[k]; }); }
+  function fail(msg) { $("error").textContent = msg; $("error").hidden = false; }
+
+  function fromBase64Url(s) {
+    s = s.replace(/-/g, "+").replace(/_/g, "/");
+    while (s.length % 4) s += "=";
+    var bin = atob(s), out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  function inflate(bytes) {
+    var ds = new DecompressionStream("deflate-raw");
+    var stream = new Blob([bytes]).stream().pipeThrough(ds);
+    return new Response(stream).text();
+  }
+
+  function list(tag, items) { var l = el(tag); items.forEach(function (x) { l.appendChild(el("li", null, x)); }); return l; }
+
+  function minutes(m) { return m >= 60 ? Math.floor(m / 60) + " " + T.h + (m % 60 ? " " + (m % 60) + " " + T.min : "") : m + " " + T.min; }
+
+  function show(r, frag) {
+    document.title = r.t + " — Nonnina";
+    var a = $("recipe");
+    a.appendChild(el("p", "kicker", r.by ? fill(T.sentBy, { name: r.by }) : T.sent));
+    a.appendChild(el("h1", null, r.t));
+    var meta = [];
+    if (r.f) meta.push(fill(T.from, { name: r.f }));
+    if (T.cat[r.c]) meta.push(T.cat[r.c]);
+    if (r.sv) meta.push(fill(T.serves, { s: r.sv }));
+    if (r.tm && r.tm[0]) meta.push("⏱ " + minutes(r.tm[0]));
+    a.appendChild(el("p", "meta", meta.join(" · ")));
+    if (r.a || r.p) a.appendChild(el("p", "meta", T.basedOn + (r.p && r.p.sourceAuthor ? " — " + r.p.sourceAuthor + (r.p.sourceYear ? " (" + r.p.sourceYear + ")" : "") : "")));
+    if (r.st) a.appendChild(el("p", "story", "“" + r.st + "”"));
+    if (r.i && r.i.length) { a.appendChild(el("h2", null, T.ingredients)); a.appendChild(list("ul", r.i)); }
+    if (r.s && r.s.length) { a.appendChild(el("h2", null, T.steps)); a.appendChild(list("ol", r.s)); }
+    (r.vs || []).forEach(function (v) {
+      var box = el("section", "version");
+      box.appendChild(el("h2", null, fill(T.version, { name: v.b || "?" })));
+      if (v.n) box.appendChild(el("p", "meta", v.n));
+      if (v.i && v.i.length) box.appendChild(list("ul", v.i));
+      if (v.s && v.s.length) box.appendChild(list("ol", v.s));
+      a.appendChild(box);
+    });
+    if (r.u && /^https?:\/\//.test(r.u)) {
+      var p = el("p", "small"), link = el("a", null, r.u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]);
+      link.href = r.u; link.rel = "noopener nofollow";
+      p.appendChild(document.createTextNode(T.source + ": ")); p.appendChild(link); a.appendChild(p);
+    }
+    a.hidden = false;
+
+    var iOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    $("open").textContent = T.open;
+    $("open").href = "nonnina://r#" + frag;
+    if (APP_STORE_URL) { $("get").textContent = T.get; $("get").href = APP_STORE_URL; $("get").hidden = false; }
+    $("appText").textContent = APP_STORE_URL ? (iOS ? T.appHave + " " + T.appGet : T.appGet) : T.appHave + " " + T.appSoon;
+    $("app").hidden = false;
+    $("print").firstChild.textContent = T.print;
+    $("print").hidden = false;
+  }
+
+  var frag = decodeURIComponent(location.hash.replace(/^#/, ""));
+  if (!frag || frag[0] !== "1") return fail(T.broken);
+  if (typeof DecompressionStream === "undefined") return fail(T.old);
+  try {
+    inflate(fromBase64Url(frag.slice(1)))
+      .then(function (json) { var r = JSON.parse(json); if (!r || !r.t) throw 0; show(r, frag); })
+      .catch(function () { fail(T.broken); });
+  } catch (e) { fail(T.broken); }
+})();
+</script>
+</body>
+</html>

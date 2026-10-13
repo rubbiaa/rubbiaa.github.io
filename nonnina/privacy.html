@@ -1,0 +1,83 @@
+<!doctype html>
+<!--
+  nonnina/privacy.html on rubbiaa.github.io — Nonnina's privacy policy (App Store privacy policy URL).
+  Source: web/ in the Nonnina repository. English, switched to Italian for Italian browsers.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nonnina — Privacy</title>
+<link rel="icon" href="/nonnina/icon.png">
+<style>
+  :root {
+    --bg: #F8F3EA; --surface: #FFFDF8; --text: #2B241D; --muted: #7D7062; --accent: #8E4A2B; --line: #E3D8C5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1E1A16; --surface: #29231E; --text: #F1E8DC; --muted: #B3A493; --accent: #E0956B; --line: #43392F; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 28px 16px 64px; }
+  .logo { font-family: "Snell Roundhand", "Segoe Script", cursive; font-weight: 700; color: var(--accent); font-size: 38px; margin: 0; }
+  .logo a { color: inherit; text-decoration: none; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 30px; margin: 10px 0 4px; }
+  h2 { font-size: 18px; margin: 28px 0 6px; }
+  .muted { color: var(--muted); }
+  .summary { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; margin-top: 18px; }
+  a { color: var(--accent); }
+  [lang-block] { display: none; }
+  html[lang="en"] [lang-block="en"], html[lang="it"] [lang-block="it"] { display: block; }
+</style>
+</head>
+<body>
+<main>
+  <p class="logo"><a href="/nonnina/">Nonnina</a></p>
+
+  <div lang-block="en">
+    <h1>Privacy</h1>
+    <p class="muted">Last updated: 13 October 2026</p>
+    <p class="summary">Nonnina collects nothing. There are no accounts, no ads, no analytics and no tracking. Your recipes stay on your devices and in your own iCloud.</p>
+
+    <h2>Your recipes, people and photos</h2>
+    <p>Everything you add — recipes, the people they came from, your versions, favourites — is kept on your iPhone or iPad. If you are signed in to iCloud, the recipes (as text) are also kept in your own iCloud, so they reach your other devices. That storage belongs to your Apple account; the developer cannot see it. Photos stay on the device where you took or chose them.</p>
+
+    <h2>Reading a photographed recipe</h2>
+    <p>When Nonnina reads a photo of a recipe card or cookbook page, the text is recognized on your device with Apple's built-in text recognition. The photo is not sent anywhere.</p>
+
+    <h2>Sending a recipe to someone</h2>
+    <p>When you send a recipe, it travels inside the link (or the file) that you send, through the app you choose — Messages, WhatsApp, Mail, AirDrop. In a link, the recipe is in the part after “#”, which web browsers never send to any server. If the person opens the link in a browser, the page on rubbiaa.github.io decodes the recipe in their browser. That page is hosted by GitHub Pages, which, like any web host, may keep technical logs of visits (such as IP addresses); it does not receive the recipe. Nonnina itself has no server.</p>
+
+    <h2>Children</h2>
+    <p>Nonnina collects no personal data from anyone, including children.</p>
+
+    <h2>Questions</h2>
+    <p>André Rubbia · <a href="mailto:andrerubbia@gmail.com">andrerubbia@gmail.com</a></p>
+  </div>
+
+  <div lang-block="it">
+    <h1>Privacy</h1>
+    <p class="muted">Ultimo aggiornamento: 13 ottobre 2026</p>
+    <p class="summary">Nonnina non raccoglie nulla. Niente account, niente pubblicità, niente statistiche, nessun tracciamento. Le tue ricette restano sui tuoi dispositivi e nel tuo iCloud.</p>
+
+    <h2>Ricette, persone e foto</h2>
+    <p>Tutto ciò che aggiungi — ricette, le persone da cui vengono, le tue versioni, i preferiti — resta sul tuo iPhone o iPad. Se hai effettuato l'accesso a iCloud, le ricette (come testo) sono conservate anche nel tuo iCloud, così arrivano sugli altri tuoi dispositivi. Quello spazio appartiene al tuo account Apple; lo sviluppatore non può vederlo. Le foto restano sul dispositivo con cui le hai scattate o scelte.</p>
+
+    <h2>Leggere una ricetta fotografata</h2>
+    <p>Quando Nonnina legge la foto di una scheda o di una pagina di ricettario, il testo viene riconosciuto sul tuo dispositivo con il riconoscimento del testo integrato di Apple. La foto non viene inviata da nessuna parte.</p>
+
+    <h2>Mandare una ricetta a qualcuno</h2>
+    <p>Quando mandi una ricetta, viaggia dentro il link (o il file) che invii, con l'app che scegli — Messaggi, WhatsApp, Mail, AirDrop. In un link, la ricetta è nella parte dopo «#», che i browser non inviano mai a nessun server. Se chi la riceve apre il link in un browser, la pagina su rubbiaa.github.io decodifica la ricetta nel suo browser. La pagina è ospitata da GitHub Pages che, come ogni hosting, può tenere registri tecnici delle visite (per esempio gli indirizzi IP); non riceve la ricetta. Nonnina non ha un proprio server.</p>
+
+    <h2>Minori</h2>
+    <p>Nonnina non raccoglie dati personali di nessuno, minori compresi.</p>
+
+    <h2>Domande</h2>
+    <p>André Rubbia · <a href="mailto:andrerubbia@gmail.com">andrerubbia@gmail.com</a></p>
+  </div>
+</main>
+<script>
+  if (/^it\b/i.test(navigator.language || "")) { document.documentElement.lang = "it"; document.title = "Nonnina — Privacy"; }
+</script>
+</body>
+</html>
