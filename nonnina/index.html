@@ -43,6 +43,12 @@
   .soon { color: var(--muted); margin-top: 18px; }
   a { color: var(--accent); }
   footer { color: var(--muted); font-size: 14px; margin-top: 40px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .demo { display: flex; justify-content: center; margin: 26px 0 8px; }
+  .demo video { width: min(300px, 78vw); aspect-ratio: 886 / 1920; border-radius: 34px; border: 6px solid #1d1a18; background: #1d1a18; box-shadow: 0 14px 40px rgba(60, 30, 10, .3); }
+  .shots { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 2px 18px; margin: 0 -16px; padding-left: 16px; scrollbar-width: none; }
+  .shots::-webkit-scrollbar { display: none; }
+  .shots img { flex: 0 0 auto; width: 210px; aspect-ratio: 1320 / 2868; border-radius: 26px; border: 4px solid #1d1a18; scroll-snap-align: start; background: var(--surface); }
+  .hint { color: var(--muted); font-size: 14px; text-align: center; margin: 0; }
 </style>
 </head>
 <body>
@@ -59,6 +65,13 @@
   <p data-it="Ogni famiglia ha ricette che vivono solo nella memoria di qualcuno — il tiramisù della nonna, il risotto della domenica di papà, la torta che la zia Maria faceva per ogni compleanno. Nonnina le conserva, insieme alle persone da cui vengono." data-fr="Chaque famille a des recettes qui ne vivent que dans la mémoire de quelqu&#x27;un — le tiramisù de Nonna, le risotto du dimanche de papa, le gâteau que tante Maria faisait à chaque anniversaire. Nonnina les garde, avec les personnes dont elles viennent." data-de="Jede Familie hat Rezepte, die nur in jemandes Erinnerung leben — Nonnas Tiramisù, Papas Sonntagsrisotto, der Kuchen, den Tante Maria zu jedem Geburtstag backte. Nonnina bewahrt sie, zusammen mit den Menschen, von denen sie kommen.">Every family has recipes that live only in someone's memory — Nonna's tiramisù, Dad's Sunday risotto, the cake Aunt Maria made for every birthday. Nonnina keeps them, together with the people they came from.</p>
   <a class="store" id="store" href="#" hidden data-it="Scarica Nonnina dall'App Store" data-fr="Télécharger Nonnina sur l&#x27;App Store" data-de="Nonnina im App Store laden">Get Nonnina on the App Store</a>
   <p class="soon" id="soon" data-it="Nonnina arriva presto sull'App Store." data-fr="Nonnina arrive bientôt sur l&#x27;App Store." data-de="Nonnina kommt bald in den App Store.">Nonnina is coming soon to the App Store.</p>
+
+
+  <div class="demo"><video id="demo" src="/nonnina/demo/en.mp4" poster="/nonnina/demo/en.jpg" controls muted playsinline preload="metadata"></video></div>
+  <p class="hint" data-it="Nonnina in 26 secondi" data-fr="Nonnina en 26 secondes" data-de="Nonnina in 26 Sekunden">Nonnina in 26 seconds</p>
+
+  <h2 data-it="Uno sguardo" data-fr="En images" data-de="Ein Blick hinein">A look inside</h2>
+  <div class="shots" id="shots"></div>
 
   <h2 data-it="Facile come chiedere alla nonna" data-fr="Aussi simple que de demander à sa grand-mère" data-de="So einfach, wie die Grossmutter zu fragen">As easy as asking your grandmother</h2>
   <div class="card">
@@ -97,6 +110,14 @@
     document.title = TITLES[L];
     document.querySelectorAll("[data-" + L + "]").forEach(function (e) { e.innerHTML = e.getAttribute("data-" + L); });
   }
+  // The video and the screenshots in the visitor's language (English otherwise).
+  var SL = TITLES[L] ? L : "en";
+  var v = document.getElementById("demo");
+  v.src = "/nonnina/demo/" + SL + ".mp4"; v.poster = "/nonnina/demo/" + SL + ".jpg";
+  var box = document.getElementById("shots");
+  ["01-home", "03-card", "02-person", "04-version", "05-tradition", "07-original", "09-shared", "08-add"].forEach(function (n) {
+    var i = document.createElement("img"); i.src = "/nonnina/shots/" + SL + "/" + n + ".jpg"; i.alt = ""; i.loading = "lazy"; box.appendChild(i);
+  });
 </script>
 </body>
 </html>
