@@ -74,8 +74,33 @@
   // When Nonnina is on the App Store, put its link here (e.g. "https://apps.apple.com/app/id…").
   var APP_STORE_URL = "";
 
-  var it = /^it\b/i.test(navigator.language || "");
-  var T = it ? {
+  var L = (navigator.language || "").slice(0, 2).toLowerCase();
+  var FR = {
+    sentBy: "{name} vous a envoyé une recette", sent: "Une recette pour vous", from: "De {name}",
+    ingredients: "Ingrédients", steps: "Étapes", serves: "Pour {s}", version: "La version de {name}",
+    basedOn: "D'après une recette traditionnelle", open: "Ouvrir dans Nonnina", get: "Télécharger Nonnina",
+    appHave: "Vous avez Nonnina ? Ajoutez la recette aux vôtres.",
+    appGet: "Avec Nonnina, vous pouvez garder cette recette parmi les vôtres. Après l'avoir installée, touchez à nouveau le lien.",
+    appSoon: "Nonnina arrive bientôt sur l'App Store.",
+    print: "Imprimer", broken: "Ce lien semble incomplet. Demandez qu'on vous le renvoie.",
+    old: "Ce navigateur ne peut pas ouvrir la recette. Essayez un Safari ou un Chrome à jour.",
+    source: "Source", min: "min", h: "h",
+    cat: { starters: "Entrées", pasta: "Pâtes et riz", soups: "Soupes", meat: "Viande", fish: "Poisson", vegetables: "Légumes", breads: "Pain et pizza", desserts: "Desserts", holidays: "Fêtes", other: "Autres" }
+  };
+  var DE = {
+    sentBy: "{name} hat dir ein Rezept geschickt", sent: "Ein Rezept für dich", from: "Von {name}",
+    ingredients: "Zutaten", steps: "Schritte", serves: "Für {s}", version: "Version von {name}",
+    basedOn: "Nach einem traditionellen Rezept", open: "In Nonnina öffnen", get: "Nonnina laden",
+    appHave: "Du hast Nonnina? Nimm das Rezept in deine auf.",
+    appGet: "Mit Nonnina kannst du dieses Rezept bei deinen eigenen behalten. Tippe nach der Installation nochmals auf den Link.",
+    appSoon: "Nonnina kommt bald in den App Store.",
+    print: "Drucken", broken: "Dieser Link scheint unvollständig. Bitte lass ihn dir nochmals schicken.",
+    old: "Dieser Browser kann das Rezept nicht öffnen. Versuch es mit einem aktuellen Safari oder Chrome.",
+    source: "Quelle", min: "Min.", h: "Std.",
+    cat: { starters: "Vorspeisen", pasta: "Pasta & Reis", soups: "Suppen", meat: "Fleisch", fish: "Fisch", vegetables: "Gemüse", breads: "Brot & Pizza", desserts: "Desserts", holidays: "Festtage", other: "Anderes" }
+  };
+  var it = L === "it";
+  var T = L === "fr" ? FR : L === "de" ? DE : it ? {
     sentBy: "{name} ti ha mandato una ricetta", sent: "Una ricetta per te", from: "Da {name}",
     ingredients: "Ingredienti", steps: "Procedimento", serves: "Dosi: {s}", version: "La versione di {name}",
     basedOn: "Da una ricetta tradizionale", open: "Apri in Nonnina", get: "Scarica Nonnina",
@@ -98,7 +123,7 @@
     source: "Source", min: "min", h: "h",
     cat: { starters: "Starters", pasta: "Pasta & rice", soups: "Soups", meat: "Meat", fish: "Fish", vegetables: "Vegetables", breads: "Bread & pizza", desserts: "Desserts", holidays: "Holidays", other: "Other" }
   };
-  document.documentElement.lang = it ? "it" : "en";
+  document.documentElement.lang = L === "fr" || L === "de" || it ? L : "en";
 
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
