@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- index.html at the root of rubbiaa.github.io — a short list of André's apps. Source: web/ in the Nonnina repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apps by André Rubbia</title>
+<style>
+  :root { --bg: #F8F3EA; --surface: #FFFDF8; --text: #2B241D; --muted: #7D7062; --accent: #8E4A2B; --line: #E3D8C5; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1E1A16; --surface: #29231E; --text: #F1E8DC; --muted: #B3A493; --accent: #E0956B; --line: #43392F; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 620px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 30px; margin: 0 0 24px; }
+  a.app { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; margin-bottom: 12px; color: inherit; text-decoration: none; }
+  a.app:hover { border-color: var(--accent); }
+  .name { color: var(--accent); font-weight: 650; font-size: 19px; }
+  .what { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Apps by André Rubbia</h1>
+  <a class="app" href="/nonnina/"><div class="name">Nonnina</div><div class="what">Family recipes — keep the recipes you love, remember who they came from</div></a>
+  <a class="app" href="/DoseStamp/"><div class="name">DoseStamp</div><div class="what">Did I take my meds today?</div></a>
+  <a class="app" href="/CalMO/"><div class="name">CalMo</div><div class="what">Exact math, graphs and calculus</div></a>
+</main>
+</body>
+</html>
