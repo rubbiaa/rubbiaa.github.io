@@ -1,31 +1,103 @@
 <!doctype html>
-<!-- index.html at the root of rubbiaa.github.io — a short list of André's apps. Source: web/ in the Nonnina repository. -->
+<!-- index.html at the root of rubbiaa.github.io — André's apps. Source: web/ in the Nonnina repository.
+     Adding an app: copy one <li class="app">, set its colour (--c), icon, name, line and links. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apps by André Rubbia</title>
+<meta name="description" content="Nonnina, DoseStamp and CalMo — small, careful apps for iPhone and iPad. No accounts, no ads, no tracking.">
+<link rel="icon" href="/nonnina/icon.png">
 <style>
-  :root { --bg: #F8F3EA; --surface: #FFFDF8; --text: #2B241D; --muted: #7D7062; --accent: #8E4A2B; --line: #E3D8C5; }
+  :root {
+    --bg: #F6F2EB; --surface: #FFFDF9; --text: #26211C; --muted: #776C60; --line: #E4DACB; --shadow: 0 1px 2px rgba(60,40,20,.06), 0 8px 24px rgba(60,40,20,.06);
+  }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --bg: #1E1A16; --surface: #29231E; --text: #F1E8DC; --muted: #B3A493; --accent: #E0956B; --line: #43392F; }
+    :root:not([data-theme="light"]) {
+      --bg: #1B1815; --surface: #25211D; --text: #F0E9DF; --muted: #A99C8D; --line: #3A332C; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  main { max-width: 620px; margin: 0 auto; padding: 40px 16px 64px; }
-  h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 30px; margin: 0 0 24px; }
-  a.app { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; margin-bottom: 12px; color: inherit; text-decoration: none; }
-  a.app:hover { border-color: var(--accent); }
-  .name { color: var(--accent); font-weight: 650; font-size: 19px; }
-  .what { color: var(--muted); }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 16px 48px; }
+
+  header { margin-bottom: 36px; }
+  .kicker { color: var(--muted); font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin: 0; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: clamp(34px, 7vw, 48px); line-height: 1.1; margin: 6px 0 14px; letter-spacing: -.01em; }
+  .intro { color: var(--muted); font-size: 18px; max-width: 34em; margin: 0; }
+
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .app { position: relative; display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center;
+         background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px; box-shadow: var(--shadow);
+         transition: transform .15s ease, border-color .15s ease; }
+  .app:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--c) 45%, var(--line)); }
+  .app::before { content: ""; position: absolute; left: 0; top: 18px; bottom: 18px; width: 4px; border-radius: 0 4px 4px 0; background: var(--c); }
+  .app img { width: 84px; height: 84px; border-radius: 19px; display: block; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: color-mix(in srgb, var(--c) 15%, var(--surface)); }
+  .app h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 25px; line-height: 1.15; margin: 0; }
+  .app h2 a { color: inherit; text-decoration: none; }
+  .app h2 a::after { content: ""; position: absolute; inset: 0; border-radius: 20px; } /* the whole card opens the app's page */
+  .app p { margin: 4px 0 10px; color: var(--muted); }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .pill { position: relative; z-index: 1; display: inline-block; font-size: 14px; font-weight: 600; padding: 5px 12px; border-radius: 999px; text-decoration: none; }
+  .store { background: var(--c); color: #fff; }
+  .soon { color: var(--muted); border: 1px solid var(--line); }
+  .more { color: var(--c); font-size: 14px; font-weight: 600; }
+
+  .promise { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 30px 0 0; padding: 0; color: var(--muted); font-size: 15px; }
+  .promise span::before { content: "✓"; color: #5F6F3E; font-weight: 700; margin-right: 7px; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+  footer a { color: inherit; }
+
+  @media (max-width: 480px) {
+    main { padding-top: 36px; }
+    .app { grid-template-columns: 64px 1fr; gap: 14px; padding: 16px; }
+    .app img { width: 64px; height: 64px; border-radius: 15px; }
+    .app h2 { font-size: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .app { transition: none; } .app:hover { transform: none; } }
 </style>
 </head>
 <body>
 <main>
-  <h1>Apps by André Rubbia</h1>
-  <a class="app" href="/nonnina/"><div class="name">Nonnina</div><div class="what">Family recipes — keep the recipes you love, remember who they came from</div></a>
-  <a class="app" href="/DoseStamp/"><div class="name">DoseStamp</div><div class="what">Did I take my meds today?</div></a>
-  <a class="app" href="/CalMO/"><div class="name">CalMo</div><div class="what">Exact math, graphs and calculus</div></a>
+  <header>
+    <p class="kicker">Apps by</p>
+    <h1>André Rubbia</h1>
+    <p class="intro">Small, careful apps for iPhone and iPad — each one does one thing well, and your data stays yours.</p>
+  </header>
+
+  <ul>
+    <li class="app" style="--c:#8E4A2B">
+      <img src="/nonnina/icon.png" alt="" width="84" height="84">
+      <div>
+        <h2><a href="/nonnina/">Nonnina</a></h2>
+        <p>Family recipes. Keep the recipes you love, and remember who they came from.</p>
+        <div class="links"><span class="pill soon">Coming soon</span><span class="more">Learn more →</span></div>
+      </div>
+    </li>
+    <li class="app" style="--c:#0E7C72">
+      <img src="/DoseStamp/icon.png" alt="" width="84" height="84">
+      <div>
+        <h2><a href="/DoseStamp/">DoseStamp</a></h2>
+        <p>Did I take my meds today? One tap when you take a medication — always know what you took, and when.</p>
+        <div class="links"><span class="more">Support &amp; privacy →</span></div>
+      </div>
+    </li>
+    <li class="app" style="--c:#E08A00">
+      <img src="/CalMO/icon.png" alt="" width="84" height="84">
+      <div>
+        <h2><a href="/CalMO/">CalMo</a></h2>
+        <p>Exact math, graphs and calculus — a calculator, equation solver and physics companion that gives exact answers.</p>
+        <div class="links"><a class="pill store" href="https://apps.apple.com/app/id6816641791">App Store</a><span class="more">Support &amp; privacy →</span></div>
+      </div>
+    </li>
+  </ul>
+
+  <p class="promise"><span>No accounts</span><span>No ads</span><span>No tracking</span></p>
+
+  <footer>
+    <span>© 2026 André Rubbia · Zürich</span>
+    <a href="mailto:andrerubbia@gmail.com">andrerubbia@gmail.com</a>
+  </footer>
 </main>
 </body>
 </html>
