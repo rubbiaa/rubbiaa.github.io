@@ -48,6 +48,9 @@
   footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
   footer a { color: inherit; }
 
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .more { color: color-mix(in srgb, var(--c) 65%, #fff); }
+  }
   @media (max-width: 480px) {
     main { padding-top: 36px; }
     .app { grid-template-columns: 64px 1fr; gap: 14px; padding: 16px; }
