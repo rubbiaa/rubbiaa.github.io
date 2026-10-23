@@ -53,6 +53,11 @@
   .version { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 12px; margin-top: 18px; }
   .small { color: var(--muted); font-size: 14px; margin-top: 22px; }
   .error { text-align: center; color: var(--muted); padding: 60px 0; }
+  .placehead { display: flex; align-items: center; gap: 16px; margin: 10px 0 6px; }
+  .placehead h1 { margin: 0; }
+  .placelogo { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; background: #fff; flex: none; }
+  .placelogo.emoji { display: inline-flex; align-items: center; justify-content: center; font-size: 42px; background: var(--surface2); }
+  .placeline { margin: 6px 0 0; }
   a { color: var(--accent); }
   @media print { .app, .noprint { display: none !important; } body { background: #fff; color: #000; } }
 </style>
@@ -77,6 +82,7 @@
   var L = (navigator.language || "").slice(0, 2).toLowerCase();
   var FR = {
     sentBy: "{name} vous a envoyé une recette", sent: "Une recette pour vous", from: "De {name}",
+    placeBy: "{name} vous a envoyé un lieu", place: "Un lieu pour vous", placeHave: "Vous avez Nonnina ? Ajoutez ce lieu aux vôtres.", placeRecipes: "Recettes de là-bas", maps: "Ouvrir dans Plans",
     ingredients: "Ingrédients", steps: "Étapes", serves: "Pour {s}", version: "La version de {name}",
     basedOn: "D'après une recette traditionnelle", open: "Ouvrir dans Nonnina", get: "Télécharger Nonnina",
     appHave: "Vous avez Nonnina ? Ajoutez la recette aux vôtres.",
@@ -89,6 +95,7 @@
   };
   var DE = {
     sentBy: "{name} hat dir ein Rezept geschickt", sent: "Ein Rezept für dich", from: "Von {name}",
+    placeBy: "{name} hat dir einen Ort geschickt", place: "Ein Ort für dich", placeHave: "Du hast Nonnina? Nimm den Ort in deine auf.", placeRecipes: "Rezepte von dort", maps: "In Karten öffnen",
     ingredients: "Zutaten", steps: "Schritte", serves: "Für {s}", version: "Version von {name}",
     basedOn: "Nach einem traditionellen Rezept", open: "In Nonnina öffnen", get: "Nonnina laden",
     appHave: "Du hast Nonnina? Nimm das Rezept in deine auf.",
@@ -102,6 +109,7 @@
   var it = L === "it";
   var T = L === "fr" ? FR : L === "de" ? DE : it ? {
     sentBy: "{name} ti ha mandato una ricetta", sent: "Una ricetta per te", from: "Da {name}",
+    placeBy: "{name} ti ha mandato un luogo", place: "Un luogo per te", placeHave: "Hai Nonnina? Aggiungi il luogo ai tuoi.", placeRecipes: "Ricette da lì", maps: "Apri in Mappe",
     ingredients: "Ingredienti", steps: "Procedimento", serves: "Dosi: {s}", version: "La versione di {name}",
     basedOn: "Da una ricetta tradizionale", open: "Apri in Nonnina", get: "Scarica Nonnina",
     appHave: "Hai Nonnina? Aggiungi la ricetta alle tue.",
@@ -113,6 +121,7 @@
     cat: { starters: "Antipasti", pasta: "Primi", soups: "Zuppe e minestre", meat: "Carne", fish: "Pesce", vegetables: "Verdure e contorni", breads: "Pane e pizza", desserts: "Dolci", holidays: "Feste", other: "Altro" }
   } : {
     sentBy: "{name} sent you a recipe", sent: "A recipe for you", from: "From {name}",
+    placeBy: "{name} sent you a place", place: "A place for you", placeHave: "Have Nonnina? Add this place to yours.", placeRecipes: "Recipes from there", maps: "Open in Maps",
     ingredients: "Ingredients", steps: "Steps", serves: "Serves {s}", version: "{name}'s version",
     basedOn: "Based on a traditional recipe", open: "Open in Nonnina", get: "Get Nonnina",
     appHave: "Have Nonnina? Add this recipe to yours.",
@@ -188,7 +197,43 @@
     $("print").hidden = false;
   }
 
+  // A place (a restaurant, a shop) sent from Nonnina: "#2…".
+  function showPlace(p, frag) {
+    document.title = p.n + " — Nonnina";
+    var a = $("recipe");
+    a.appendChild(el("p", "kicker", p.by ? fill(T.placeBy, { name: p.by }) : T.place));
+    var head = el("div", "placehead");
+    if (p.lg && /^[A-Za-z0-9+/=]+$/.test(p.lg)) { var img = el("img", "placelogo"); img.src = "data:image/jpeg;base64," + p.lg; img.alt = ""; head.appendChild(img); }
+    else if (p.av && /^avatar:\d:/.test(p.av)) { var em = el("span", "placelogo emoji", p.av.replace(/^avatar:\d:/, "") || p.n.slice(0, 1)); head.appendChild(em); }
+    var t = el("div"); t.appendChild(el("h1", null, p.n)); if (p.k) t.appendChild(el("p", "meta", p.k)); head.appendChild(t);
+    a.appendChild(head);
+    if (p.a) {
+      var ad = el("p", "placeline"); ad.appendChild(document.createTextNode("📍 " + p.a + " · "));
+      var m = el("a", null, T.maps); m.href = "https://maps.apple.com/?q=" + encodeURIComponent(p.n + ", " + p.a); ad.appendChild(m); a.appendChild(ad);
+    }
+    if (p.u) {
+      var href = /^https?:\/\//i.test(p.u) ? p.u : "https://" + p.u;
+      var w = el("p", "placeline"); var wl = el("a", null, "🌐 " + p.u.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "")); wl.href = href; wl.rel = "noopener nofollow"; w.appendChild(wl); a.appendChild(w);
+    }
+    if (p.b) a.appendChild(el("p", "story", "“" + p.b + "”"));
+    if (p.rt && p.rt.length) { a.appendChild(el("h2", null, T.placeRecipes)); a.appendChild(list("ul", p.rt)); }
+    a.hidden = false;
+    $("open").textContent = T.open;
+    $("open").href = "nonnina://r#" + frag;
+    if (APP_STORE_URL) { $("get").textContent = T.get; $("get").href = APP_STORE_URL; $("get").hidden = false; }
+    $("appText").textContent = T.placeHave + " " + (APP_STORE_URL ? T.appGet : T.appSoon);
+    $("app").hidden = false;
+  }
+
   var frag = decodeURIComponent(location.hash.replace(/^#/, ""));
+  if (frag && frag[0] === "2") {
+    if (typeof DecompressionStream === "undefined") return fail(T.old);
+    try {
+      return inflate(fromBase64Url(frag.slice(1)))
+        .then(function (json) { var p = JSON.parse(json); if (!p || !p.n) throw 0; showPlace(p, frag); })
+        .catch(function () { fail(T.broken); });
+    } catch (e) { return fail(T.broken); }
+  }
   if (!frag || frag[0] !== "1") return fail(T.broken);
   if (typeof DecompressionStream === "undefined") return fail(T.old);
   try {
